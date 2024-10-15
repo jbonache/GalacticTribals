@@ -1,28 +1,137 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="galactic_tribals.list">
-      <field name="name">GalacticTribals list</field>
-      <field name="model">galactic_tribals.galactic_tribals</field>
+
+    <record model="ir.ui.view" id="galactic_tribals.player_list">
+      <field name="name">GalacticTribals Player list</field>
+      <field name="model">galactic_tribals.player</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
         </tree>
       </field>
     </record>
--->
+
+    <record model="ir.ui.view" id="galactic_tribals.tribu_list">
+      <field name="name">GalacticTribals Tribu list</field>
+      <field name="model">galactic_tribals.tribu</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="galactic_tribals.planeta_list">
+      <field name="name">GalacticTribals Planteta list</field>
+      <field name="model">galactic_tribals.planeta</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="galactic_tribals.recurs_list">
+      <field name="name">GalacticTribals Recurs list</field>
+      <field name="model">galactic_tribals.recurs</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="galactic_tribals.construccio_list">
+      <field name="name">GalacticTribals Construccio list</field>
+      <field name="model">galactic_tribals.construccio</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="galactic_tribals.nau_list">
+      <field name="name">GalacticTribals Nau list</field>
+      <field name="model">galactic_tribals.nau</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="galactic_tribals.batalla_list">
+      <field name="name">GalacticTribals Batalla list</field>
+      <field name="model">galactic_tribals.batalla</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="galactic_tribals.alianza_list">
+      <field name="name">GalacticTribals Aliança list</field>
+      <field name="model">galactic_tribals.alianza</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
 
     <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="galactic_tribals.action_window">
-      <field name="name">GalacticTribals window</field>
-      <field name="res_model">galactic_tribals.galactic_tribals</field>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_player_window">
+      <field name="name">GalacticTribals Player window</field>
+      <field name="res_model">galactic_tribals.player</field>
       <field name="view_mode">tree,form</field>
     </record>
--->
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_tribu_window">
+      <field name="name">GalacticTribals Tribu window</field>
+      <field name="res_model">galactic_tribals.tribu</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_planeta_window">
+      <field name="name">GalacticTribals Planeta window</field>
+      <field name="res_model">galactic_tribals.planeta</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_recurs_window">
+      <field name="name">GalacticTribals Recurs window</field>
+      <field name="res_model">galactic_tribals.recurs</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_construccio_window">
+      <field name="name">GalacticTribals Construccio window</field>
+      <field name="res_model">galactic_tribals.construccio</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_nau_window">
+      <field name="name">GalacticTribals Nau window</field>
+      <field name="res_model">galactic_tribals.nau</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_batalla_window">
+      <field name="name">GalacticTribals Batalla window</field>
+      <field name="res_model">galactic_tribals.batalla</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="galactic_tribals.action_alianza_window">
+      <field name="name">GalacticTribals Aliança window</field>
+      <field name="res_model">galactic_tribals.alianza</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
 
     <!-- server action to the one above -->
 <!--
@@ -41,20 +150,36 @@
 -->
 
     <!-- Top menu item -->
-<!--
     <menuitem name="GalacticTribals" id="galactic_tribals.menu_root"/>
--->
+
+
     <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="galactic_tribals.menu_1" parent="galactic_tribals.menu_root"/>
-    <menuitem name="Menu 2" id="galactic_tribals.menu_2" parent="galactic_tribals.menu_root"/>
--->
+    <menuitem name="Management" id="galactic_tribals.menu_1" parent="galactic_tribals.menu_root"/>
+
     <!-- actions -->
-<!--
-    <menuitem name="List" id="galactic_tribals.menu_1_list" parent="galactic_tribals.menu_1"
-              action="galactic_tribals.action_window"/>
-    <menuitem name="Server to list" id="galactic_tribals" parent="galactic_tribals.menu_2"
-              action="galactic_tribals.action_server"/>
--->
+    <menuitem name="Players" id="galactic_tribals.menu_player_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_player_window"/>
+
+    <menuitem name="Tribes" id="galactic_tribals.menu_tribu_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_tribu_window"/>
+
+    <menuitem name="Planets" id="galactic_tribals.menu_planeta_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_planeta_window"/>
+
+    <menuitem name="Resources" id="galactic_tribals.menu_recurs_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_recurs_window"/>
+
+    <menuitem name="Buildings" id="galactic_tribals.menu_construccio_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_construccio_window"/>
+
+    <menuitem name="Spaceships" id="galactic_tribals.menu_nau_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_nau_window"/>
+
+    <menuitem name="Battles" id="galactic_tribals.menu_batalla_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_batalla_window"/>
+
+    <menuitem name="Alliances" id="galactic_tribals.menu_alianza_list" parent="galactic_tribals.menu_1"
+              action="galactic_tribals.action_alianza_window"/>
+
   </data>
 </odoo>
