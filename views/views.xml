@@ -8,6 +8,10 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="email"/>
+          <field name="register_date"/>
+          <field name="level"/>
+          <field name="battle_points"/>
         </tree>
       </field>
     </record>
@@ -18,6 +22,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="home_planet"/>
+          <field name="ability"/>
         </tree>
       </field>
     </record>
@@ -28,6 +34,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="environment"/>
+          <field name="status"/>
         </tree>
       </field>
     </record>
@@ -38,6 +46,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="type"/>
+          <field name="quantity"/>
         </tree>
       </field>
     </record>
@@ -48,6 +58,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="type"/>
+          <field name="status"/>
         </tree>
       </field>
     </record>
@@ -58,6 +70,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="type"/>
+          <field name="status"/>
         </tree>
       </field>
     </record>
@@ -68,6 +82,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="date"/>
+          <field name="result"/>
         </tree>
       </field>
     </record>
@@ -78,6 +94,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="date"/>
+          <field name="status"/>
         </tree>
       </field>
     </record>
