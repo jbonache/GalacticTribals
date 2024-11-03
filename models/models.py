@@ -2,6 +2,10 @@
 from tokenize import String
 
 from odoo import models, fields, api
+from datetime import datetime
+from odoo.exceptions import ValidationError
+import random
+import re
 
 class Player(models.Model):
     _name = 'galactic_tribals.player'
@@ -9,8 +13,8 @@ class Player(models.Model):
 
     name = fields.Char(string='Nom', required=True)
     email = fields.Char(string='Correu electrònic', required=True)
-    register_date = fields.Date(string='Data de registre', required=True)
-    level = fields.Integer(string='Nivell')
+    register_date = fields.Datetime(string='Data de registre', required=True, default = lambda self: fields.Datetime.now())
+    level = fields.Integer(string='Nivell', compute='_get_level')
     battle_points = fields.Integer(string='Punts')
     isActive = fields.Boolean()
     avatar=fields.Image(max_width=100, max_height=100, required=True)
@@ -24,6 +28,22 @@ class Player(models.Model):
     batalles = fields.Many2many('galactic_tribals.batalla', related='tribu.batalles', readonly=True)
     aliances = fields.Many2many('galactic_tribals.alianza', related='tribu.aliances', readonly=True)
 
+    # Funcions compute
+    @api.depends('battle_points')
+    def _get_level(self):
+        for player in self:
+            player.level = 1 + (player.battle_points // 100)
+
+    # Constrains
+    @api.constrains('email')
+    def _check_mail(self):
+        regex = r'^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$'
+        for p in self:
+            if p.email and not re.match(regex, p.email):
+                raise ValidationError('El correu electrónic no es vàlid.')
+
+    _sql_constraints = [('nom_unic','unique(name)','Ja existeix un jugador amb eixe mateix nom.')]
+
 class Tribu(models.Model):
     _name = 'galactic_tribals.tribu'
     _description = 'Tribu Model for Galactic Tribals'
@@ -31,6 +51,7 @@ class Tribu(models.Model):
     name = fields.Char(string='Nom', required=True)
     home_planet = fields.Char(string='Planeta d\'orige', required=True)
     ability = fields.Char(string='Habilitat', required=True)
+    lider = fields.Char(string='Líder' , compute='_get_lider')
 
     # Fields per a les Relacions
     players = fields.One2many(string='Els meus jugadors',comodel_name='galactic_tribals.player', inverse_name='tribu')
@@ -43,6 +64,17 @@ class Tribu(models.Model):
                                 column1='tribu_id',
                                 column2='alianza_id')
 
+    def _get_lider(self):
+        for tribe in self:
+            tribe.lider = " "
+            fechahora_lider = datetime.now()
+            for p in tribe.players:
+                if p.register_date <= fechahora_lider:
+                    fechahora_lider = p.register_date
+                    tribe.lider = p.name
+
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una tribu amb eixe mateix nom.')]
 
 class Planeta(models.Model):
     _name = 'galactic_tribals.planeta'
@@ -54,8 +86,10 @@ class Planeta(models.Model):
 
     # Fields per a les Relacions
     construccions = fields.One2many('galactic_tribals.construccio', 'planeta')
-    recursos = fields.One2many(string='Els meus recursos',comodel_name='galactic_tribals.recurs', inverse_name='planeta')
+    recursos = fields.One2many(string='Els meus recursos',comodel_name='galactic_tribals.recurs', inverse_name='planeta', readonly=True )
 
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix un planeta amb eixe mateix nom.')]
 
 class Recurs(models.Model):
     _name = 'galactic_tribals.recurs'
@@ -63,10 +97,13 @@ class Recurs(models.Model):
 
     name = fields.Char(string='Nom', required=True)
     type = fields.Char(string='Tipo', required=True)
-    quantity = fields.Char(string='Quantitat disponible', required=True)
+    quantity = fields.Char(string='Quantitat disponible', required=True, default = lambda q: random.randint(100, 500) )
 
     # Fields per a les Relacions
     planeta = fields.Many2one('galactic_tribals.planeta', ondelete='set null', help='El planeta on es troba')
+
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix un recurs amb eixe mateix nom.')]
 
 class Construccio(models.Model):
     _name = 'galactic_tribals.construccio'
@@ -80,6 +117,9 @@ class Construccio(models.Model):
     planeta = fields.Many2one('galactic_tribals.planeta', ondelete='set null', help='El planeta on s"ha construit')
     player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El jugador que l"ha construit')
 
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una construccio amb eixe mateix nom.')]
+
 class Nau(models.Model):
     _name = 'galactic_tribals.nau'
     _description = 'Nau Model for Galactic Tribals'
@@ -90,6 +130,9 @@ class Nau(models.Model):
 
     # Fields per a les Relacions
     player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El seu jugador propietari')
+
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una nau amb eixe mateix nom.')]
 
 class Batalla(models.Model):
     _name = 'galactic_tribals.batalla'
@@ -106,7 +149,19 @@ class Batalla(models.Model):
                               column1='batalla_id')
 
     # Fields relationals
-    guanyador = fields.Many2one('galactic_tribals.tribu', ondelete='set null', help='El guanyador de la batalla')
+    guanyador = fields.Many2one('galactic_tribals.tribu', ondelete='set null', help='El guanyador de la batalla', readonly='True',
+                                compute='_get_resultat', store=True)
+
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una batalla amb eixe mateix nom.')]
+
+    @api.depends('name')
+    def _get_resultat(self):
+        for b in self:
+            numero = random.randint(0, 1)
+            bat = [b.tribus[0], b.tribus[1]]
+            b.guanyador = bat[numero]
+
 
 class Alianza(models.Model):
     _name = 'galactic_tribals.alianza'
@@ -122,3 +177,5 @@ class Alianza(models.Model):
                                 column2='tribu_id',
                                 column1='alianza_id')
 
+    # Constrains
+    _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una aliança amb eixe mateix nom.')]
