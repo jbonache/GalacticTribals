@@ -13,11 +13,11 @@ class Player(models.Model):
 
     name = fields.Char(string='Nom', required=True)
     email = fields.Char(string='Correu electrònic', required=True)
-    register_date = fields.Datetime(string='Data de registre', required=True, default = lambda self: fields.Datetime.now())
+    register_date = fields.Datetime(string='Data de registre', required=True) #, default = lambda self: fields.Datetime.now())
     level = fields.Integer(string='Nivell', compute='_get_level')
     battle_points = fields.Integer(string='Punts')
     isActive = fields.Boolean()
-    avatar=fields.Image(max_width=100, max_height=100, required=True)
+    avatar=fields.Image(max_width=100, max_height=100)
 
     # Fields per a les Relacions
     tribu = fields.Many2one('galactic_tribals.tribu', ondelete='set null', help='La tribu a la que pertany')
@@ -126,7 +126,7 @@ class Nau(models.Model):
 
     name = fields.Char(string='Nom', required=True)
     type = fields.Char(string='Tipo', required=True)
-    status = fields.Char(string='Estat', required=True)
+    firepower = fields.Integer(string='Firepower', required=True)
 
     # Fields per a les Relacions
     player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El seu jugador propietari')
@@ -149,7 +149,7 @@ class Batalla(models.Model):
                               column1='batalla_id')
 
     # Fields relationals
-    guanyador = fields.Many2one('galactic_tribals.tribu', ondelete='set null', help='El guanyador de la batalla', readonly='True',
+    guanyador = fields.Many2one('galactic_tribals.tribu', ondelete='set null', help='El guanyador de la batalla', readonly=True,
                                 compute='_get_resultat', store=True)
 
     # Constrains

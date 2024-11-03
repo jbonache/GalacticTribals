@@ -28,7 +28,7 @@ Long description of module's purpose
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        'demo/galactic_tribals_demo.xml',
     ],
 }
 
