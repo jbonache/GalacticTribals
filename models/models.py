@@ -54,15 +54,17 @@ class Tribu(models.Model):
     lider = fields.Char(string='Líder' , compute='_get_lider')
 
     # Fields per a les Relacions
-    players = fields.One2many(string='Els meus jugadors',comodel_name='galactic_tribals.player', inverse_name='tribu')
+    players = fields.One2many(string='Els meus jugadors',comodel_name='galactic_tribals.player', inverse_name='tribu', readonly=True)
     batalles = fields.Many2many(comodel_name='galactic_tribals.batalla',
                                 relation='tribus_batalles',
                                 column1='tribu_id',
-                                column2='batalla_id')
+                                column2='batalla_id',
+                                readonly=True )
     aliances = fields.Many2many(comodel_name='galactic_tribals.alianza',
                                 relation='tribus_aliances',
                                 column1='tribu_id',
-                                column2='alianza_id')
+                                column2='alianza_id',
+                                readonly=True)
 
     def _get_lider(self):
         for tribe in self:
@@ -85,9 +87,12 @@ class Planeta(models.Model):
     status = fields.Char(string='Estat', required=True)
 
     # Fields per a les Relacions
-    construccions = fields.One2many('galactic_tribals.construccio', 'planeta')
-    recursos = fields.One2many(string='Els meus recursos',comodel_name='galactic_tribals.recurs', inverse_name='planeta', readonly=True )
-
+    construccions = fields.One2many('galactic_tribals.construccio', 'planeta', readonly=True)
+    #recursos = fields.One2many(string='Els meus recursos',comodel_name='galactic_tribals.recurs', inverse_name='planeta', readonly=True )
+    recursos = fields.Many2many(comodel_name='galactic_tribals.recurs',
+                                relation='recursos_planetas',
+                                column1='planeta_id',
+                                column2='recurs_id')
     # Constrains
     _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix un planeta amb eixe mateix nom.')]
 
@@ -100,7 +105,11 @@ class Recurs(models.Model):
     quantity = fields.Char(string='Quantitat disponible', required=True, default = lambda q: random.randint(100, 500) )
 
     # Fields per a les Relacions
-    planeta = fields.Many2one('galactic_tribals.planeta', ondelete='set null', help='El planeta on es troba')
+    #planeta = fields.Many2one('galactic_tribals.planeta', ondelete='set null', help='El planeta on es troba')
+    planetas = fields.Many2many(comodel_name='galactic_tribals.planeta',
+                                relation='recursos_planetas',
+                                column2='planeta_id',
+                                column1='recurs_id')
 
     # Constrains
     _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix un recurs amb eixe mateix nom.')]
@@ -115,7 +124,7 @@ class Construccio(models.Model):
 
     # Fields per a les Relacions
     planeta = fields.Many2one('galactic_tribals.planeta', ondelete='set null', help='El planeta on s"ha construit')
-    player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El jugador que l"ha construit')
+    player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El jugador que l"ha construit', string='Builded by')
 
     # Constrains
     _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una construccio amb eixe mateix nom.')]
@@ -129,7 +138,7 @@ class Nau(models.Model):
     firepower = fields.Integer(string='Firepower', required=True)
 
     # Fields per a les Relacions
-    player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El seu jugador propietari')
+    player = fields.Many2one('galactic_tribals.player', ondelete='set null', help='El jugador que la pilota', string='Driver')
 
     # Constrains
     _sql_constraints = [('nom_unic', 'unique(name)', 'Ja existeix una nau amb eixe mateix nom.')]

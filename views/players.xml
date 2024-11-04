@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="galactic_tribals.player_form">
+      <field name="name">GalacticTribals Player form</field>
+      <field name="model">galactic_tribals.player</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <field name="avatar" widget="image"/>
+                <group>
+                    <separator string="Personal data"></separator>
+                    <group>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="register_date"/>
+                        <field name="isActive"/>
+                    </group>
+                    <separator string="Player data"></separator>
+                    <group>
+                        <field name="level"/>
+                        <field name="battle_points"/>
+                        <field name="tribu"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+  </data>
+</odoo>

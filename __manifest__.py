@@ -25,6 +25,14 @@ Long description of module's purpose
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/players.xml',
+        'views/tribes.xml',
+        'views/planets.xml',
+        'views/resources.xml',
+        'views/buildings.xml',
+        'views/spaceships.xml',
+        'views/battles.xml',
+        'views/alliances.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
