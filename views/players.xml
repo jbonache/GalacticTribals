@@ -1,9 +1,8 @@
 <odoo>
     <data>
         <!-- explicit list view definition -->
-        <!--<record model="galactic_tribals.player" id="imatges.avatar_default_1">
-            <field name="avatar" widget="image">
-                /9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUSEhIVFRUXFxYZFRgXGBUYFhgWFxcYFhcV
+       <!-- <record model="galactic_tribals.player" id="galactic_tribals.avatar_default_1">
+            <field name="avatar">/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUSEhIVFRUXFxYZFRgXGBUYFhgWFxcYFhcV
                 GBcaHSggGBolHxUXITEhJSkrLy4uFx82ODMsNygtLisBCgoKDg0OFxAQGDUdHx0tLS0tLS0tLSst
                 LSstLS0tLSstLSsrLSstLSstLS0tLS0rLSstKystLSstLS0tLS0tLf/AABEIAOEA4QMBIgACEQED
                 EQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABgMEBQcIAQL/xABLEAABAwICBgUHCAgDCAMAAAABAAID

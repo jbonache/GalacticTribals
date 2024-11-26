@@ -12,7 +12,7 @@ class Player(models.Model):
     _description = 'Player Model for Galactic Tribals'
 
     def _get_default_image(self):
-        return self.env.ref('imatge.avatar_default').avatar
+        return self.env.ref('galactic_tribals.avatar_default_1').avatar
 
     name = fields.Char(string='Nom', required=True)
     email = fields.Char(string='Correu electrònic', required=True)
@@ -47,6 +47,19 @@ class Player(models.Model):
                 raise ValidationError('El correu electrónic no es vàlid.')
 
     _sql_constraints = [('nom_unic','unique(name)','Ja existeix un jugador amb eixe mateix nom.')]
+
+    # onchange handler
+    @api.onchange('register_date')
+    def _onchange_dreg(self):
+        now = fields.Datetime.now()
+        if self.register_date > now:
+            return {
+                'warning': {
+                    'title': "Bad Register data",
+                    'message': "La fecha de registre no pot ser posterior a l'actual",
+                    'type' : 'notification'
+                }
+            }
 
 class Tribu(models.Model):
     _name = 'galactic_tribals.tribu'
