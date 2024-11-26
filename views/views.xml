@@ -103,37 +103,60 @@
             </field>
         </record>
 
+        <!-- Search -->
+         <record model="ir.ui.view" id="galactic_tribals.player_search">
+            <field name="name">GalacticTribals Player search</field>
+            <field name="model">galactic_tribals.player</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="level"/>
+                    <field name="level" string="Minium level" filter_domain="[('level','>=',self)]"/>
+                    <filter name="less_500" string="Less or equal than 500 points" domain="[('battle_points','&lt;=',500)]"/>
+                    <filter name="more_500" string="More than 500 points" domain="[('battle_points','>',500)]"/>
+                    <filter name="group_by_tribe" string="Group by Tribe" context="{'group_by': 'tribu'}"/>
+                </search>
+            </field>
+        </record>
+
         <!-- vistes kanban dels models -->
 
         <record model="ir.ui.view" id="galactic_tribals.player_kanban">
             <field name="name">GalacticTribals Player kanban</field>
             <field name="model">galactic_tribals.player</field>
             <field name="arch" type="xml">
-                <kanban>
+                <kanban default_group_by="tribu" on_create="quick_create"
+                        quick_create_view="galactic_tribals.quick_create_player_form">
                     <!--list of field to be loaded -->
                     <field name="name"/>
                     <field name="id"/> <!-- És important afegir el id per al record.id.value -->
                     <field name="avatar"/>
                     <field name="level"/>
+                    <field name="battle_points"/>
 
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_product_vignette"
-                                 t-attf-class="oe_kanban_color_{{kanban_get_color(record.level.raw_value)}}">
+                                 t-attf-class="oe_kanban_global_click o_kanban_record_has_image_fill
+                                               oe_kanban_color_{{kanban_getcolor(record.level.raw_value)}}">
                                 <a type="open">
                                     <img class="oe_kanban_image"
                                          t-att-alt="record.name.value"
                                          t-att-src="kanban_image('galactic_tribals.player', 'avatar', record.id.value)"/>
                                 </a>
-                                <div class="oe_product_desc">
+                                <div class="oe_product_desc" style="text-align:center;">
                                     <h4>
                                         <a type="edit">
                                             <field name="name"></field>
                                         </a>
                                     </h4>
-                                    <ul>
-                                        <li>Level:
+                                    <ul style="list-style-type:none;">
+                                        <li style="color:orange;">Level:
                                             <field name="level"></field>
+                                        </li>
+                                        <li style="color:green;">Points:
+                                            <field name="battle_points"></field>
                                         </li>
                                     </ul>
                                 </div>

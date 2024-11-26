@@ -16,11 +16,12 @@ class Player(models.Model):
 
     name = fields.Char(string='Nom', required=True)
     email = fields.Char(string='Correu electrònic', required=True)
-    register_date = fields.Datetime(string='Data de registre', required=True) #, default = lambda self: fields.Datetime.now())
+    register_date = fields.Datetime(string='Data de registre', required=True, default = lambda self: fields.Datetime.now())
     level = fields.Integer(string='Nivell', compute='_get_level')
     battle_points = fields.Integer(string='Punts')
     isActive = fields.Boolean()
-    avatar=fields.Image(default=_get_default_image, max_width=100, max_height=100)
+    avatar = fields.Image(max_width=100, max_height=100)
+    #avatar=fields.Image(default=_get_default_image, max_width=100, max_height=100)
 
     # Fields per a les Relacions
     tribu = fields.Many2one('galactic_tribals.tribu', ondelete='set null', help='La tribu a la que pertany')
