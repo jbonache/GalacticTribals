@@ -6,21 +6,35 @@ from datetime import datetime
 from odoo.exceptions import ValidationError
 import random
 import re
+from odoo.modules.module import get_module_resource
+import base64
 
 class Player(models.Model):
     _name = 'galactic_tribals.player'
     _description = 'Player Model for Galactic Tribals'
 
+    @api.model
     def _get_default_image(self):
-        return self.env.ref('galactic_tribals.avatar_default_1').avatar
+        # Obtener la ruta del archivo utilizando get_module_resource
+        image_path = get_module_resource('galactic_tribals', 'static/src/img/avatar_default.png')
+        try:
+            with open(image_path, 'rb') as image_file:
+                return base64.b64encode(image_file.read())
+        except FileNotFoundError:
+            # Retorna False si no se encuentra el archivo
+            return False
+
+    #def _get_default_image_notrun(self):
+    #    return self.env.ref('galactic_tribals.avatar_default_1').avatar
 
     name = fields.Char(string='Nom', required=True)
     email = fields.Char(string='Correu electrònic', required=True)
     register_date = fields.Datetime(string='Data de registre', required=True, default = lambda self: fields.Datetime.now())
     level = fields.Integer(string='Nivell', compute='_get_level')
     battle_points = fields.Integer(string='Punts')
-    isActive = fields.Boolean()
-    avatar = fields.Image(max_width=100, max_height=100)
+    isActive = fields.Boolean(default=True)
+    avatar = fields.Image(default=lambda self: self._get_default_image(), max_width=100, max_height=100)
+    #avatar = fields.Image(max_width=100, max_height=100)
     #avatar=fields.Image(default=_get_default_image, max_width=100, max_height=100)
 
     # Fields per a les Relacions
